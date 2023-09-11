@@ -11,7 +11,7 @@ jobs:
       - users: actions/checkout@v4
 
       - name: Show node version
-      - run: echo node -v
+        run: echo node -v
 
       - name: Setup pnpm
         uses : pnpm/action-setup@v2.4.0
@@ -20,7 +20,7 @@ jobs:
           run_install: false
 
       - name: Install dependencies
-      - run: npm install
+        run: npm install
 
       - name: Build the app
-      - npm run build
+        run: npm run build
