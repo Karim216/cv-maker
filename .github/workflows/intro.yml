@@ -6,7 +6,9 @@ env:
 
 on:
   push:
-
+    paths-ignore:
+      - '**.pdf'
+      - '**.mhtml'
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -47,6 +49,25 @@ jobs:
               pnpm run preview &
               sleep 5
               curl -I http://localhost:4173
+      
+      # Step 3: Generate the snapshot
+      - name: Generate snapshot
+        run: docker run -i --init --cap-add=SYS_ADMIN --network host -v ./gen:/home/pptruser/gen ghcr.io/puppeteer/puppeteer:latest node -e "$(cat snapshot.js)" http://localhost:4173 ./gen
+
+      # Step 4: Move files to static folder
+      - name: Move snapshot files to static
+        run: |
+          mv *.pdf static/
+          mv *.mhtml static/
+
+      # Step 5: Push files to repository
+      - name: Push snapshot files to repo
+        run: |
+          git config --global user.name "karim216"
+          git config --global user.email "njigbetnkom@gmail.com"
+          git add static/*.pdf static/*.mhtml
+          git commit -m "Add snapshot files"
+          git push
 
   deploy:
     runs-on: ubuntu-latest
