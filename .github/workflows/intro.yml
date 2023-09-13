@@ -62,11 +62,14 @@ jobs:
           mv *.pdf static/
           mv *.mhtml static/
 
-      # Step 5: Push files to repository
+      - name: Configure git
+        run: |
+          git config --global user.name "VotreNom"
+          git config --global user.email "votre.email@example.com"
+          git remote set-url origin https://x-access-token:${{ secrets.GH_PAT }}@github.com/karim216/cv-maker.git
+
       - name: Push snapshot files to repo
         run: |
-          git config --global user.name "karim216"
-          git config --global user.email "njigbetnkom@gmail.com"
           git add static/*.pdf static/*.mhtml
           git commit -m "Add snapshot files"
           git push
