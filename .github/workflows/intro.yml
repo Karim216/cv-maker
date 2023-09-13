@@ -52,7 +52,9 @@ jobs:
       
       # Step 3: Generate the snapshot
       - name: Generate snapshot
-        run: docker run -i --init --cap-add=SYS_ADMIN --network host -v ./gen:/home/pptruser/gen ghcr.io/puppeteer/puppeteer:latest node -e "$(cat snapshot.js)" http://localhost:4173 ./gen
+        run: |
+          sudo chown -R 1000:1000 ./gen
+          docker run -i --init --cap-add=SYS_ADMIN --network host -v ./gen:/home/pptruser/gen ghcr.io/puppeteer/puppeteer:latest node -e "$(cat snapshot.js)" http://localhost:4173 ./gen
 
       # Step 4: Move files to static folder
       - name: Move snapshot files to static
