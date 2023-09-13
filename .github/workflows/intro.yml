@@ -64,8 +64,8 @@ jobs:
 
       - name: Configure git
         run: |
-          git config --global user.name "VotreNom"
-          git config --global user.email "votre.email@example.com"
+          git config --global user.name "karim216"
+          git config --global user.email "njigbetnkom@gmail.com"
           git remote set-url origin https://x-access-token:${{ secrets.GH_PAT }}@github.com/karim216/cv-maker.git
 
       - name: Push snapshot files to repo
